@@ -1,0 +1,11 @@
+{% extends "store/base.html" %}
+{% block title %}{{ category.name }} | ITStep{% endblock %}
+{% block heading %}{{ category.name }}{% endblock %}
+{% block content %}
+<div class="section-heading"><div><p class="eyebrow">Category collection</p><h2>{{ category.name }}</h2></div><span class="sort-note">{{ products|length }} available</span></div>
+<div class="product-grid">
+{% for product in products %}
+    <article class="product-card"><div class="product-top"><span class="product-category">{{ product.category.name }}</span>{% if product.has_discount %}<span class="sale-badge">SALE</span>{% endif %}</div><h3>{{ product.name }}</h3><p class="description">{{ product.description }}</p><div class="price-row"><span class="price">${{ product.current_price|floatformat:2 }}</span>{% if product.has_discount %}<del>${{ product.price|floatformat:2 }}</del>{% endif %}</div></article>
+{% empty %}<p class="empty-state">No products are available in this category.</p>{% endfor %}
+</div>
+{% endblock %}

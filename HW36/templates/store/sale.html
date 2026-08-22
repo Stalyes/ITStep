@@ -1,0 +1,11 @@
+{% extends "store/base.html" %}
+{% block title %}Sale | ITStep{% endblock %}
+{% block heading %}Good things, lower prices.{% endblock %}
+{% block content %}
+<div class="section-heading"><div><p class="eyebrow">Limited offers</p><h2>Sale products</h2></div><span class="sort-note">Sorted by price</span></div>
+<div class="product-grid">
+{% for product in products %}
+    <article class="product-card sale-card"><div class="product-top"><span class="product-category">{{ product.category.name }}</span><span class="sale-badge">SALE</span></div><h3>{{ product.name }}</h3><p class="description">{{ product.description }}</p><div class="price-row"><span class="price">${{ product.current_price|floatformat:2 }}</span><del>${{ product.price|floatformat:2 }}</del></div></article>
+{% empty %}<p class="empty-state">There are no sale products right now.</p>{% endfor %}
+</div>
+{% endblock %}

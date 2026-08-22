@@ -1,0 +1,38 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}ITStep{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'store/styles.css' %}">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="{% url 'home' %}"><span class="brand-mark">IT</span>ITStep</a>
+        <nav>
+            <a href="{% url 'home' %}">All products</a>
+            <a class="sale-link" href="{% url 'sale_products' %}">Sale</a>
+        </nav>
+    </header>
+    <main class="page-shell">
+        <section class="intro">
+            <p class="eyebrow">Curated goods, considered prices</p>
+            <h1>{% block heading %}Find your next favorite thing.{% endblock %}</h1>
+            <p class="lede">Small-batch essentials and clever objects, ready to ship.</p>
+        </section>
+        <div class="catalog-layout">
+            <aside class="sidebar">
+                <p class="sidebar-label">Browse categories</p>
+                <a class="category-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Everything</a>
+                {% for category in categories %}
+                    <a class="category-link {% if category.slug == request.resolver_match.kwargs.slug %}active{% endif %}" href="{{ category.get_absolute_url }}">{{ category.name }} <span>({{ category.product_count }})</span></a>
+                {% endfor %}
+            </aside>
+            <section class="product-area">
+                {% block content %}{% endblock %}
+            </section>
+        </div>
+    </main>
+</body>
+</html>

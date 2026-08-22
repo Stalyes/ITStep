@@ -1,0 +1,21 @@
+from school.models import Course, Lecturer, Student
+
+lecturers = Lecturer.objects.all()
+courses = Course.objects.select_related("lecturer")
+students = Student.objects.prefetch_related("courses")
+
+student = Student.objects.get(email="tako.student@example.com")
+student.first_name = "Tamuna"
+student.save()
+
+course = Course.objects.get(title="Python Foundations")
+course.title = "Advanced Python"
+course.save()
+
+student.courses.add(Course.objects.get(title="Data Modeling"))
+student.courses.remove(Course.objects.get(title="Web Interfaces"))
+student.courses.clear()
+
+Course.objects.get(title="Algorithms").delete()
+Student.objects.get(email="irakli.student@example.com").delete()
+Lecturer.objects.get(email="liam.carter@example.com").delete()

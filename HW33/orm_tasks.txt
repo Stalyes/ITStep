@@ -1,0 +1,20 @@
+from project.models import Author, Book, Reader
+
+authors = Author.objects.all()
+books = Book.objects.select_related("author")
+readers = Reader.objects.prefetch_related("books")
+
+reader = Reader.objects.get(email="tako.reader@example.com")
+reader.first_name = "Tamuna"
+reader.save()
+
+book = Book.objects.get(title="The Glass Harbor")
+book.pages = 300
+book.save()
+
+reader.books.add(Book.objects.get(title="Northbound"))
+reader.books.remove(Book.objects.get(title="The Last Archive"))
+
+Reader.objects.get(email="nana.reader@example.com").delete()
+Book.objects.get(title="Northbound").delete()
+Author.objects.get(email="liam.carter@example.com").delete()
