@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h2><i class="fas fa-search"></i> ბილეთის შემოწმება/გაუქმება</h2>
+    <p>შეიყვანეთ ბილეთის ID</p>
+</div>
+
+<div class="check-ticket-container">
+    <form action="/verify_ticket" method="POST" class="check-form">
+        <div class="form-group">
+            <label>ბილეთის ID</label>
+            <div class="input-with-btn">
+                <input type="text" name="ticket_id" placeholder="მაგ: GEO-A7B2C9DE" required>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i> შემოწმება
+                </button>
+            </div>
+        </div>
+    </form>
+
+    {% if cancelled %}
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
+        ბილეთი {{ ticket_id }} გაუქმებულია.
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="alert alert-error">
+        <i class="fas fa-exclamation-triangle"></i>
+        {{ error }}
+    </div>
+    {% endif %}
+
+    {% if ticket %}
+    <div class="ticket-check-result">
+        <h3><i class="fas fa-ticket-alt"></i> ბილეთის ინფორმაცია</h3>
+        <div class="ticket-info-grid">
+            <div class="info-item">
+                <span class="label">ID</span>
+                <span class="value">{{ ticket.id }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">ელფოსტა</span>
+                <span class="value">{{ ticket.email }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">ტელეფონი</span>
+                <span class="value">{{ ticket.phone }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">თანხა</span>
+                <span class="value">{{ ticket.ticketPrice }} ₾</span>
+            </div>
+            <div class="info-item">
+                <span class="label">სტატუსი</span>
+                <span class="value status-{{ 'confirmed' if ticket.confirmed else 'active' }}">
+                    {% if ticket.confirmed %}დადასტურებული{% else %}მოლოდინში{% endif %}
+                </span>
+            </div>
+            {% if ticket.train %}
+            <div class="info-item">
+                <span class="label">რეისი</span>
+                <span class="value">#{{ ticket.train.number }} - {{ ticket.train.name }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if ticket.persons %}
+        <h4 style="margin-top:20px">მგზავრები:</h4>
+        <div style="margin-top:10px">
+            {% for passenger in ticket.persons %}
+            <div class="individual-ticket" style="margin-bottom:10px">
+                <div class="ticket-body">
+                    <div>
+                        <strong>{{ passenger.name }} {{ passenger.surname }}</strong><br>
+                        <small>პ/ნ: {{ passenger.idNumber }}</small>
+                    </div>
+                    <div>
+                        {% if passenger.seat %}ადგილი: <strong>{{ passenger.seat.number }}</strong>{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form action="/cancel_ticket/{{ ticket.id }}" method="POST"
+              onsubmit="return confirm('ნამდვილად გსურთ ბილეთის გაუქმება?')" style="margin-top:20px">
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-times-circle"></i> ბილეთის გაუქმება
+            </button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
