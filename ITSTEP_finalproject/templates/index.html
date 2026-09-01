@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="home-hero-section">
+    <div class="home-hero-content">
+        <h1 class="hero-title">მატარებლის ბილეთების ძებნა</h1>
+        <p class="hero-subtitle">აირჩიეთ მიმართულება, თარიღი და მგზავრების რაოდენობა.</p>
+    </div>
+
+    <div class="search-panel">
+        <h2 class="search-panel-title">მატარებლის ბილეთის დაჯავშნა</h2>
+        <form action="/trains" method="GET" class="search-form-new" id="searchForm">
+            <div class="search-inputs">
+                <div class="search-input-group">
+                    <select name="from_city" id="from_city" required>
+                        <option value="">საიდან</option>
+                        {% for city in cities %}
+                        <option value="{{ city }}">{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="search-input-group">
+                    <select name="to_city" id="to_city" required>
+                        <option value="">სად</option>
+                        {% for city in cities %}
+                        <option value="{{ city }}">{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="search-input-group">
+                    <select name="date" id="date" required>
+                        <option value="">გამგზავრების დღე</option>
+                        {% for day in days %}
+                        <option value="{{ day }}">{{ day }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="search-input-group">
+                    <select name="tickets" id="tickets">
+                        <option value="1">1 მგზავრი</option>
+                        <option value="2">2 მგზავრი</option>
+                        <option value="3">3 მგზავრი</option>
+                        <option value="4">4 მგზავრი</option>
+                        <option value="5">5 მგზავრი</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="search-submit-btn">
+                    <span class="btn-text">მატარებლის ძებნა</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="info-hero-section">
+    <div class="info-hero-left">
+        <div class="suitcase-image-slot">
+            <img src="{{ url_for('static', filename='images/suitcase.png') }}" alt="" onerror="this.style.visibility='hidden'">
+        </div>
+    </div>
+
+    <div class="info-hero-right">
+        <h2 class="info-hero-title">მატარებლის ბილეთები</h2>
+        <p class="info-hero-desc">
+            თითოეული მგზავრისთვის საჭიროა პირადი ნომრის მითითება. მოამზადეთ მონაცემები წინასწარ.
+        </p>
+
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon-slot">
+                    <img src="{{ url_for('static', filename='images/icon-offers.png') }}" alt="" onerror="this.outerHTML='<i class=\'fas fa-headset\'></i>'">
+                </div>
+                <div class="feature-text">
+                    <strong>მოსახერხებელი</strong>
+                    <span>შეთავაზებები</span>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-slot">
+                    <img src="{{ url_for('static', filename='images/icon-support.png') }}" alt="" onerror="this.outerHTML='<i class=\'fas fa-clock\'></i>'">
+                </div>
+                <div class="feature-text">
+                    <strong>24/7 მხარდაჭერა</strong>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-slot">
+                    <img src="{{ url_for('static', filename='images/icon-secure.png') }}" alt="" onerror="this.outerHTML='<i class=\'fas fa-shield-alt\'></i>'">
+                </div>
+                <div class="feature-text">
+                    <strong>უსაფრთხო</strong>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-slot">
+                    <img src="{{ url_for('static', filename='images/icon-payment.png') }}" alt="" onerror="this.outerHTML='<i class=\'fas fa-credit-card\'></i>'">
+                </div>
+                <div class="feature-text">
+                    <strong>უზრუნველყოფილი</strong>
+                    <span>გადახდა</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}{% endblock %}

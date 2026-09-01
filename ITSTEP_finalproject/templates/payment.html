@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h2><i class="fas fa-credit-card"></i> გადახდა</h2>
+</div>
+
+<div class="payment-layout">
+    <div class="payment-form-area">
+        <form action="/process_payment" method="POST" id="paymentForm">
+            <div class="form-section">
+                <h3><i class="fas fa-lock"></i> ბარათის მონაცემები</h3>
+
+                <div class="card-preview">
+                    <div class="card-front">
+                        <div class="card-chip"></div>
+                        <div class="card-number-display" id="cardNumDisplay">**** **** **** ****</div>
+                        <div class="card-bottom">
+                            <div>
+                                <span class="card-label">მფლობელი</span>
+                                <div id="cardNameDisplay">თქვენი სახელი</div>
+                            </div>
+                            <div>
+                                <span class="card-label">მოქმედების ვადა</span>
+                                <div id="cardExpDisplay">MM/YY</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>ბარათის ნომერი</label>
+                    <input type="text" name="card_number" id="cardNumber" required placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                <div class="form-group">
+                    <label>მფლობელის სახელი</label>
+                    <input type="text" name="card_name" id="cardName" required placeholder="JOHN DOE">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>მოქმედების ვადა</label>
+                        <input type="text" name="expiry" id="cardExpiry" required placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="password" name="cvv" required placeholder="***" maxlength="3">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary pay-btn">
+                <i class="fas fa-lock"></i> გადახდა {{ total }} ₾
+            </button>
+        </form>
+    </div>
+
+    <div class="invoice-sidebar">
+        <div class="invoice-card">
+            <h3><i class="fas fa-receipt"></i> შეკვეთის დეტალები</h3>
+            <div class="invoice-details">
+                <div class="invoice-row">
+                    <span>მიმართულება</span>
+                    <span>{{ from_name }} → {{ to_name }}</span>
+                </div>
+                {% if train %}
+                <div class="invoice-row">
+                    <span>რეისი</span>
+                    <span>#{{ train.number }}</span>
+                </div>
+                {% endif %}
+                <hr>
+                {% for passenger in passengers %}
+                <div class="invoice-row">
+                    <span>{{ passenger.name }} {{ passenger.surname }}</span>
+                    <span>{{ passenger.vagonName }}, {{ passenger.seatNumber }}</span>
+                </div>
+                {% endfor %}
+                <hr>
+                <div class="invoice-row total">
+                    <span>ჯამი</span>
+                    <span>{{ total }} ₾</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}{% endblock %}
