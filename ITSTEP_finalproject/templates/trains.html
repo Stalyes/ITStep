@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-header">
+    <h2>
+        <i class="fas fa-route"></i>
+        {{ from_name }} <i class="fas fa-arrow-right"></i> {{ to_name }}
+    </h2>
+    <p class="date-display"><i class="fas fa-calendar"></i> {{ date }}</p>
+    <p>მგზავრები: {{ num_tickets }}</p>
+</div>
+
+<div class="trains-list">
+    {% if trains %}
+        {% for t in trains %}
+        <div class="train-card">
+            <div class="train-info">
+                <div class="train-number">
+                    <i class="fas fa-train"></i>
+                    <span>რეისი #{{ t.number }}</span>
+                    <small>{{ t.name }}</small>
+                </div>
+                <div class="train-times">
+                    <div class="time-block">
+                        <span class="time">{{ t.departure }}</span>
+                        <span class="city-label">{{ t.from }}</span>
+                    </div>
+                    <div class="duration-line">
+                        <div class="line"></div>
+                        <i class="fas fa-arrow-right"></i>
+                        <div class="line"></div>
+                    </div>
+                    <div class="time-block">
+                        <span class="time">{{ t.arrive }}</span>
+                        <span class="city-label">{{ t.to }}</span>
+                    </div>
+                </div>
+                <div class="train-price">
+                    <span class="price">{{ t.price }} ₾</span>
+                    <span class="per-person">ერთ ადგილზე</span>
+                </div>
+            </div>
+            <div class="train-action">
+                <a href="/passengers/{{ t.id }}" class="btn btn-primary">
+                    <i class="fas fa-bookmark"></i> დაჯავშნა
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-results">
+            <i class="fas fa-exclamation-circle"></i>
+            <h3>რეისები ვერ მოიძებნა</h3>
+            <p>სცადეთ სხვა მიმართულება ან დღე</p>
+            <a href="/" class="btn btn-secondary">უკან დაბრუნება</a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="back-link">
+    <a href="/"><i class="fas fa-arrow-left"></i> ახალი ძებნა</a>
+</div>
+{% endblock %}
